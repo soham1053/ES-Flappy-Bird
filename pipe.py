@@ -15,7 +15,7 @@ class Pipe:
     def move(self):
         self.pos -= self.speed
         if self.pos + self.width < 0:
-            self.pos = screenWidth
+            self.pos += screenWidth + self.width
             self.topPipeHeight = int(random.random() * (ground - self.verticalSpace))
 
     def stop(self):

@@ -1,11 +1,14 @@
 import pygame
 
+size_factor = 1
+
 background = pygame.image.load('background.png')
+background = pygame.transform.scale(background, [size*size_factor for size in background.get_size()])
 
 screenWidth, screenHeight = background.get_size()
 
-ground = 282
-textY = 25
+ground = 282*size_factor
+textY = 25*size_factor
 
 jumpSpeed = -9
 gravity = 1
