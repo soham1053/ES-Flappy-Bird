@@ -22,8 +22,6 @@ class FlappyBird:
         if self.started:
             if self.collision() or self.bird.hitGround():
                 self.bird.die()
-                # for pipe in self.pipes:
-                #     pipe.stop()
 
             if self.birdInPipe() and not self.entered:
                 self.entered = True
@@ -34,10 +32,6 @@ class FlappyBird:
             self.bird.move(jump)
             for pipe in self.pipes:
                 pipe.move()
-
-            for i in range(len(self.pipes)):
-                if self.pipes[i].pos - self.pipes[i-1].pos > 0:
-                    print(self.pipes[i].pos - self.pipes[i-1].pos)
 
     def draw(self, screen):
         screen.blit(background, (0, 0))
