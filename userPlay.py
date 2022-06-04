@@ -12,22 +12,22 @@ clock = pygame.time.Clock()
 numBirds = 4
 game = FlappyBird(3, numBirds, separateBirds=True)
 
-jumpsString = "jumps = ["
-for i in range(numBirds):
-    jumpsString += "event.key == pygame.K_" + chr(i+97) + ", "
-jumpsString = jumpsString[:-2] + "]"
-print(jumpsString)
+jumps = [False for _ in range(numBirds)]
+pressing = [False for _ in range(numBirds)]
 
 while True:
-    jumps = [False for _ in range(numBirds)]
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
         if event.type == pygame.KEYDOWN:
-            exec(jumpsString)
             if event.key == pygame.K_RETURN:
                 game.reset()
+
+    keys = pygame.key.get_pressed()
+    for i in range(numBirds):
+        exec("jumps[i] = keys[pygame.K_" + chr(i+97) + "] and not pressing[i]")
+        exec("pressing[i] = keys[pygame.K_" + chr(i+97) + "]")
 
     game.step(jumps)
 
