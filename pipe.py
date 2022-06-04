@@ -6,7 +6,7 @@ import random
 class Pipe:
     width = 50
     speed = 5
-    verticalSpace = 125
+    verticalSpace = 175
 
     def __init__(self, startX):
         self.pos = startX

@@ -4,9 +4,9 @@ from constants import *
 
 class Bird:
     img = pygame.transform.scale(pygame.image.load("bird.png"), (50, 50))
-    x = screenWidth // 4
 
-    def __init__(self):
+    def __init__(self, x):
+        self.x = x
         self.y = int(screenHeight/2 - self.img.get_size()[1]/2)
         self.velocity = 0
         self.dead = False
@@ -30,9 +30,14 @@ class Bird:
             self.dead = True
             self.velocity = 0
 
-    def gainPoint(self):
+    def enterPipe(self):
         if not self.dead:
-            self.points += 1
+            if not self.gotPoint:
+                self.points += 1
+            self.gotPoint = True
+
+    def leavePipe(self):
+        self.gotPoint = False
 
     def hitGround(self):
         return self.y + self.img.get_size()[1] >= ground

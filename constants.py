@@ -7,6 +7,8 @@ background = pygame.transform.scale(background, [size*size_factor for size in ba
 
 screenWidth, screenHeight = background.get_size()
 
+birdX = 40
+
 ground = 282*size_factor
 textY = 25*size_factor
 

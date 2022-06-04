@@ -9,24 +9,29 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 fps = 30
 clock = pygame.time.Clock()
 
-game = FlappyBird(3)
+numBirds = 4
+game = FlappyBird(3, numBirds, separateBirds=True)
+
+jumpsString = "jumps = ["
+for i in range(numBirds):
+    jumpsString += "event.key == pygame.K_" + chr(i+97) + ", "
+jumpsString = jumpsString[:-2] + "]"
+print(jumpsString)
 
 while True:
-    jump = False
+    jumps = [False for _ in range(numBirds)]
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                jump = True
-            elif event.key == pygame.K_RETURN:
+            exec(jumpsString)
+            if event.key == pygame.K_RETURN:
                 game.reset()
 
+    game.step(jumps)
 
-    game.step(jump)
-
-    game.draw(screen)
+    game.draw(screen, mode="human")
     pygame.display.flip()
 
     clock.tick(fps)
