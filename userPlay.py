@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 fps = 30
 clock = pygame.time.Clock()
 
-numBirds = 4
+numBirds = 2
 game = FlappyBird(3, numBirds, separateBirds=True)
 
 jumps = [False for _ in range(numBirds)]
