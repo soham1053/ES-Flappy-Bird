@@ -1,6 +1,8 @@
 from bird import Bird
 from pipe import Pipe
 from constants import *
+import numpy as np
+import torch
 import pygame
 
 class FlappyBird:
@@ -13,11 +15,14 @@ class FlappyBird:
         else:
             self.birds = [Bird(birdX) for _ in range(numBirds)]
 
+        self.inputSize = 2 + 2 * numPipes
+
         self.started = False
         self.font = pygame.font.SysFont("Impact", 40, False)
 
     def reset(self):
         self.__init__(len(self.pipes), len(self.birds), self.separateBirds)
+        return self.states()
 
     def step(self, jumps):
         if not self.started:
@@ -40,6 +45,19 @@ class FlappyBird:
         for pipe in self.pipes:
             pipe.move()
 
+        return self.states(), not any([not bird.dead for bird in self.birds])
+
+    def states(self):
+        pipeState = []
+        for pipe in self.pipes:
+            pipeState.extend([pipe.pos, pipe.topPipeHeight])
+
+        states = []
+        for bird in self.birds:
+            states.append(torch.Tensor([bird.y, bird.velocity] + pipeState))
+
+        return states
+
     def draw(self, screen, mode):
         screen.blit(background, (0, 0))
 
@@ -52,6 +70,16 @@ class FlappyBird:
             pointsStr = ' '.join([chr(i+65) + ":" + str(bird.points) for i, bird in enumerate(self.birds)])
             text = self.font.render(pointsStr, True, "white")
             screen.blit(text, (int(screenWidth/2 - text.get_size()[0]/2), textY))
+
+        elif mode == "computer":
+            points = 0
+            for bird in self.birds:
+                points = max(points, bird.points)
+            text = self.font.render(str(points), True, "white")
+            screen.blit(text, (int(screenWidth/2 - text.get_size()[0]/2), textY))
+
+    def getPoints(self):
+        return np.array([bird.points for bird in self.birds])
 
     def collision(self, bird):
         birdRect = bird.getRect()
