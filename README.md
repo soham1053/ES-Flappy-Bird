@@ -1,14 +1,13 @@
 # Evolution Strategies with Flappy Bird
 
----
-
 An implementation of [Evolution Strategies (ES)](https://arxiv.org/pdf/1703.03864.pdf), an alternative method to 
 reinforcement learning, tested on the simple game of Flappy Bird. Reinforcement learning generally calculates 
 probabilities for actions and changes the weights of a neural network based on a gradient. On the other hand, ES adds 
-noise to the original network's weight parameters, creating a whole "generation" of "mutated" networks, and moves the 
-weights in the direction of the average of each mutated network's added noise, weighted based on how well they perform. 
-This estimates the gradient of the expected reward of the original network, without the use of backpropagation, which 
-can reduce the time to train significantly if parallelized. 
+noise to the original network's weight parameters, creating a whole "generation" of "mutated" networks (hence the name 
+"evolution"), and moves the weights in the direction of the average of each mutated network's added noise, weighted 
+based on how well they perform so the best mutants are weighted more heavily. This estimates the gradient of the 
+expected reward of the original network without the use of backpropagation, which can reduce the time to train 
+significantly if parallelized. 
 
 ES also makes visualizing the training process quite fun.
 
