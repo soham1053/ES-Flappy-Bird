@@ -1,6 +1,7 @@
 from constants import *
 from game import FlappyBird
 from population import Population
+import numpy as np
 import pygame
 
 pygame.init()
@@ -41,5 +42,8 @@ for iter in range(iterations):
             if render:
                 game.draw(screen, mode="computer")
                 pygame.display.flip()
-        pop.store(game.getPoints())
+        scores = game.getPoints()
+        pop.store(scores)
+        if iter % 20 == 0:
+            print(f"Gen {iter} Average Score: {np.mean(scores)}")
     pop.evolve()

@@ -35,7 +35,6 @@ class Population:
 
     def store(self, points):
         self.points += points
-        print(np.mean(points))
 
     def load(self, name):
         self.agent.load(name)
