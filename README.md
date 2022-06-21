@@ -12,6 +12,10 @@ can reduce the time to train significantly if parallelized.
 
 ES also makes visualizing the training process quite fun.
 
+
+https://user-images.githubusercontent.com/51470282/174742986-f7727afa-1631-46ab-a982-e5a563ffb5fd.mp4
+
+
 ## How to Use
 Run `userPlay.py` to play by yourself and/or others, by changing the numBirds variable to however many players. Player 1
 jumps by pressing A, player 2 presses B, etc.
