@@ -9,6 +9,7 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 fps = 30
 clock = pygame.time.Clock()
 
+# Change numBirds to change how many players there are
 numBirds = 2
 game = FlappyBird(3, numBirds, separateBirds=True)
 

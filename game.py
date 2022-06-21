@@ -49,7 +49,7 @@ class FlappyBird:
 
     def states(self):
         pipeState = []
-        for pipe in self.pipes:
+        for pipe in sorted(self.pipes, key=lambda pipe: pipe.pos):
             pipeState.extend([pipe.pos, pipe.topPipeHeight])
 
         states = []
@@ -80,6 +80,9 @@ class FlappyBird:
 
     def getPoints(self):
         return np.array([bird.points for bird in self.birds])
+
+    def getDead(self):
+        return [bird.dead for bird in self.birds]
 
     def collision(self, bird):
         birdRect = bird.getRect()

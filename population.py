@@ -9,9 +9,17 @@ class Population:
         self.mutatedAgents = [self.agent.mutate() for _ in range(popSize)]
         self.points = np.zeros(popSize)
 
+        self.timestep = 0
 
-    def act(self, states):
-        return [mutated[0](state)>0.5 for mutated, state in zip(self.mutatedAgents, states)]
+
+    def act(self, states, deads):
+        actions = []
+        for mutated, state, dead in zip(self.mutatedAgents, states, deads):
+            if not dead:
+                actions.append(mutated[0](state) > 0.5)
+            else:
+                actions.append(False)
+        return actions
 
     def evolve(self):
         self.points = (self.points - np.mean(self.points)) / (np.std(self.points) + 1e-10)
@@ -21,16 +29,21 @@ class Population:
         self.mutatedAgents = [self.agent.mutate() for _ in range(len(self.mutatedAgents))]
         self.points *= 0
 
-        self.agent.save("policy")
+        if self.timestep % 5 == 0:
+            self.agent.save("policy")
+        self.timestep += 1
 
     def store(self, points):
         self.points += points
         print(np.mean(points))
 
+    def load(self, name):
+        self.agent.load(name)
+        self.mutatedAgents = [self.agent.mutate() for _ in range(len(self.mutatedAgents))]
 
 
 class Agent:
-    def __init__(self, inputSize, sigma=0.01, alpha=0.0001):
+    def __init__(self, inputSize, sigma=0.015, alpha=0.0003):
         self.inputSize = inputSize
         self.policy = Policy(inputSize)
         self.sigma = sigma
@@ -43,7 +56,7 @@ class Agent:
                 param.data = torch.zeros(param.data.shape)
 
     def act(self, state):
-        return self.policy(state) > 0.5
+        return [self.policy(state) > 0.5]
 
     def mutate(self):
         mutatedPolicy = Policy(self.inputSize)
